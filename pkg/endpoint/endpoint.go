@@ -427,9 +427,6 @@ type Endpoint struct {
 	// LabelsMap is the Set of all security labels used in the last policy computation
 	LabelsMap *identityPkg.IdentityCache
 
-	// Consumable represents the security-identity-based policy for this endpoint.
-	Consumable *policy.Consumable `json:"-"`
-
 	// Iteration policy of the Endpoint - what does that even mean??
 	Iteration uint64 `json:"-"`
 
