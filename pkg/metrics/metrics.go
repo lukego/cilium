@@ -129,6 +129,36 @@ var (
 		Help:        "Last timestamp when we received an event",
 		ConstLabels: prometheus.Labels{"source": LabelEventSourceAPI},
 	})
+
+	// Proxy statistics
+
+	// ProxyParseErrors is a count of failed parse errors on proxy
+	ProxyParseErrors = prometheus.NewCounter(prometheus.CounterOpts{
+		Namespace: Namespace,
+		Name:      "proxy_parse_errors_total",
+		Help:      "Number of times a proxy parse error occured",
+	})
+
+	// ProxyForwarded is a count of all forwarded requests by proxy
+	ProxyForwarded = prometheus.NewCounter(prometheus.CounterOpts{
+		Namespace: Namespace,
+		Name:      "proxy_messages_forwarded_total",
+		Help:      "Number of times proxy request/response was forwarded",
+	})
+
+	// ProxyDenied is a count of all denied requests by policy by the proxy
+	ProxyDenied = prometheus.NewCounter(prometheus.CounterOpts{
+		Namespace: Namespace,
+		Name:      "proxy_messages_denied_total",
+		Help:      "Number of times proxy request/response was denied",
+	})
+
+	// ProxyReceived is a count of all received requests by the proxy
+	ProxyReceived = prometheus.NewCounter(prometheus.CounterOpts{
+		Namespace: Namespace,
+		Name:      "proxy_messages_received_total",
+		Help:      "Number of times proxy request/response was received",
+	})
 )
 
 func init() {
@@ -146,6 +176,11 @@ func init() {
 	MustRegister(EventTSK8s)
 	MustRegister(EventTSContainerd)
 	MustRegister(EventTSAPI)
+
+	MustRegister(ProxyParseErrors)
+	MustRegister(ProxyForwarded)
+	MustRegister(ProxyDenied)
+	MustRegister(ProxyReceived)
 }
 
 // MustRegister adds the collector to the registry, exposing this metric to
