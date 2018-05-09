@@ -93,6 +93,14 @@ func (res *CmdRes) ExpectContains(data string, optionalDescription ...interface{
 		gomega.ContainSubstring(data), optionalDescription...)
 }
 
+// ExpectDoesntContain asserts that a string is not contained in the stdout of
+// the executed command. It accepts an optional parameter that can be used to
+// annotate failure messages.
+func (res *CmdRes) ExpectDoesntContain(data string, optionalDescription ...interface{}) bool {
+	return gomega.ExpectWithOffset(1, res.Output().String()).ToNot(
+		gomega.ContainSubstring(data), optionalDescription...)
+}
+
 // CountLines return the number of lines in the stdout of res.
 func (res *CmdRes) CountLines() int {
 	return strings.Count(res.stdout.String(), "\n")
