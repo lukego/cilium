@@ -399,16 +399,6 @@ func (driver *driver) joinEndpoint(w http.ResponseWriter, r *http.Request) {
 
 	log.WithField(logfields.Object, old).Debug("Existing endpoint")
 
-	ep := &models.EndpointChangeRequest{
-		State: models.EndpointStateWaitingForIdentity,
-	}
-
-	if err = driver.client.EndpointPatch(endpointPkg.NewCiliumID(old.ID), ep); err != nil {
-		log.WithError(err).Error("Joining endpoint failed")
-		sendError(w, "Unable to connect endpoint to network: "+err.Error(),
-			http.StatusInternalServerError)
-	}
-
 	res := &api.JoinResponse{
 		InterfaceName: &api.InterfaceName{
 			SrcName:   plugins.Endpoint2TempIfName(j.EndpointID),
